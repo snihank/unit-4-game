@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Crystal Collector</title>
+
+  <!-- link to jQuery library -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- link to bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+  <!-- links to our own css style sheet and reset style sheet -->
+  <link rel="stylesheet" href="assets/css/style.css" media="screen">
+  <link rel="stylesheet" href="assets/css/reset.css" media="screen">  
+</head>
+
+
+<body>
+    <div class="container">
+    <header class = "jumbotron">Crystals Collector</header>
+    </div>
+
+    <div id = "para" class="container">
+
+    <div class="row">
+        <div class = "col">
+            <p>
+                A random number is displayed in the green box.
+            </p>
+        </div>
+    </div>
+
+    <div id = "para1" class="row">
+            <div class = "col">
+                <p>
+                    There are four crystals below. By clicking on a 
+                    cystal, you will add a specific number of points 
+                    to your total score.
+                </p>
+            </div>
+        </div> 
+
+        <div id = "para1" class="row">
+                <div class = "col">
+                    <p>
+                        You win by matching your total score to that
+                        random number, you lose if your total score
+                        goes beyond the random number in the green box.
+                    </p>
+                </div>
+            </div>
+
+            <div id = "para1" class="row">
+                    <div class = "col">
+                        <p>
+                            The value of each crystal is hidden until 
+                            you click on it.
+                        </p>
+                    </div>
+                </div> 
+
+                <div id = "para1"class="row">
+                        <div class = "col">
+                            <p>
+                                Each time the game starts, the game will change 
+                                the value of each crystal and generates a new 
+                                random number in the green box.
+                            </p>
+                        </div>
+                    </div> 
+    </div>
+
+    <div id = "result" class="container">
+
+        <div class="row">
+            <div class="col">
+        <div class = "random_number">
+            Random Number:
+        </div>
+        </div>
+        </div>
+        
+            <div id = "wins" class="row">
+                <div class = "col-xs-sm-12">
+                    
+                    Wins: 
+                    
+                </div>
+            </div>
+
+            <div id = "losses" class="row">
+                    <div class = "col">
+                        Losses: 
+                    </div>
+                </div>
+
+        
+
+        </div>
+    
+
+    <div class = "container">
+        <div id = "crystals">
+            <img class = "crystal-image1" src = "assets/images/image1.jpeg" alt="image1" width="100px" height= "100px">
+            <img class = "crystal-image2" src = "assets/images/image2.jpeg" alt="image2" width="100px" height= "100px">
+            <img class = "crystal-image3" src = "assets/images/image3.jpeg" alt="image3" width="100px" height= "100px">
+            <img class = "crystal-image4" src = "assets/images/image4.jpeg" alt="image4" width="100px" height= "100px">
+        </div>
+
+    </div>
+
+    <div class = "container">
+
+    <div id = "score">Your total score is:</div>
+    </div>
+    
+    
+
+<!-- Link to JavaScript game.js -->
+<script type="text/javascript" src="assets/javascript/game.js"></script>
+</body>
+
+</html>
