@@ -1,138 +1,149 @@
-// There are four crystals displayed as buttons, each has a random hidden value between 1-12
-
-// There is a random number between 19-120 shown at the beginning 
-
-// When the player clicks on a crystal, it will add a hidden point to the players total point
-
-// The player wins if the total score equals the ramdon number displayed at the beginnig of the game
-
-// The player losses if the total number goes beyond the random number
-
-// The game generates a new random number and total score is set to 0
 
 
+// GLOBAL VARIABLES
+// =================================================================
+
+// Crystal Variables
+var crystal = {
+    blue:
+    {
+        name: "Blue",
+        value: 0
+    },
+    green:
+    {
+        name: "Green",
+        value: 0
+    },
+    red:
+    {
+        name: "Red",
+        value: 0
+    },
+    yellow:
+    {
+        name: "Yellow",
+        value: 0
+    }
+};
+
+// Scores (Current and Target)
+var currentScore = 0;
+var targetScore = 0;
+
+// Wins and Losses
+var winCount = 0;
+var lossCount = 0;
 
 
-// Global variables declared so that we can use them in every scope when required
+// FUNCTIONS
+// =================================================================
 
-// Player wins counter
-var wins = 0;
-// Player losses counter
-var losses = 0;
-// Player's score counter
-var addCrysNum = 0;
-// Random number between 19-120 generated at the beginning
-var randomNum = Math.floor(Math.random() * (120-19+1))+19;
-// This is to check in the browser console if the above line is functioning correctly
-console.log("Random number: " + randomNum);
+// Helper Function for getting random numbers
+var getRandom = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
+// Starts the Game (and restarts the game)
+var startGame = function () {
 
+    // Reset the Current Score
+    currentScore = 0;
 
-// This function resets the game after player's win or loss
-function resetGame() {
-    console.log("reset")
+    // Set a new Target Score (between 19 and 120)
+    targetScore = getRandom(19, 120);
 
-    // Here we generate a new random number again between 19 and 120
-    randomNum = Math.floor(Math.random() * (120-19+1))+19;
-    // We check in the browser console if new random number is generated
-    console.log("New Random number: " + randomNum);
+    // Set different values for each of the crystals (between 1 and 12)
+    crystal.blue.value = getRandom(1, 12);
+    crystal.red.value = getRandom(1, 12);
+    crystal.green.value = getRandom(1, 12);
+    crystal.yellow.value = getRandom(1, 12);
 
-    /* Here we use jQuery to select the div with class ".random_number" 
-       and dump the randomNum variable into our div */
-    $(".random_number").html("Random Number: " + randomNum);
-    
-    // We set the player's score to 0 again
-    addCrysNum = 0;
-    $("#score").html("Your total score is: " + addCrysNum);
+    // Change the HTML to reflect all of these changes
+    $("#score").text("Your total score is " + currentScore);
+    $("#random_number").text("Random Number: " + targetScore);
 
 
-}
+    // Testing Console
+    console.log("-----------------------------------");
+    console.log("Target Score: " + targetScore);
+    console.log("Blue: " + crystal.blue.value + " | Green: " + crystal.green.value + " | Red: " + crystal.red.value +
+        " | Yellow: " + crystal.yellow.value);
+    console.log("-----------------------------------");
+};
 
-// Starting the jQuery event to manipulate the DOM when loaded
-$(document).ready(function(){
+// Check if User Won or Lost and Reset the Game
+var checkWin = function () {
 
+    // Check if currentScore is larger than targetScore
+    if (currentScore > targetScore) {
+        alert("Sorry. You lost!");
+        console.log("You Lost");
 
-// Trying a little bit of css with jQuery
-$(".container").css("margin","10px 10px 10px 10px");
-$("img").css("border","5px blue solid")
+        // Add to Loss Counter
+        lossCount++;
 
-/* Here we use jQuery to select the div with class ".random_number" 
-    and dump the randomNum variable into our div */
-$(".random_number").html("Random Number: " + randomNum);
+        // Change Loss Count HTML
+        $("#losses").text("Losses: " + lossCount);
 
-/* Here we use jQuery to select the div with id "#wins"  
-    and dump the wins variable into our div */
-$("#wins").html("Wins: " + wins);
+        $("#status").text("You lost");
 
-/* Here we use jQuery to select the div with id "#losses"  
-    and dump the losses variable into our div */
-$("#losses").html("Losses: " + losses);
+        // Restart the game
+        startGame();
+    }
 
-/* Here we use jQuery to select the div with id "#score"  
-    and dump the addCrysNum variable into our div */
-$("#score").html("Your total score is: " + addCrysNum);
+    else if (currentScore === targetScore) {
+        alert("Congratulations! You Won!");
+        console.log("You Won!");
 
+        // Add to the Win Counter
+        winCount++;
 
+        // Change Win Count HTML
+        $("#wins").text("Wins: " + winCount);
 
-/* Starting a jQuery function to trigger an event when the div with
-   id "#crystals" are clicked */
-    $("#crystals").on('click', function () {
+        $("#status").text("You Won");
 
-        // The variable crysNum generates a random number between 1 and 12
-        var crysNum = Math.floor(Math.random() * (12-1+1))+1;
-        // We check in the browser console if new random number is generated
-        console.log("Crystal random number: " + crysNum);
+        // Restart the game
+        startGame();
+    }
 
-        // Here we add the player score with the randomly generated number
-        addCrysNum += crysNum;
-        // We check in the browser console if player score is updated
-        console.log("Addition of the crystal numbers generated: " + addCrysNum);
+};
 
-        /* Here we use jQuery to select the div with id "#score"  
-        and dump the updated addCrysNum variable into our div */
-        $("#score").html("Your total score is: " + addCrysNum);
-        
-        // We check if there is a match between player's score and random number generated
-        if(addCrysNum === randomNum) {
-             // Here we check the win in the console
-            console.log("won")
-            // Then we update/increment wins by 1
-            wins++;
-            /* And we use jQuery to select the div with id "#wins"  
-            and dump the updates/incremented wins variable into our div */
-            $("#wins").html("Wins: " + wins);
+// Respond to clicks on the crystals
+var addValues = function (clickedCrystal) {
 
-            
-            // We reset the game by calling the reset function
-            resetGame();
-        }
+    // Change currentScore
+    currentScore += clickedCrystal.value;
 
-        // We check if player's score goes beyond the random number generated
-        if(addCrysNum > randomNum) {
-            // Here we check the loss in the console
-            console.log("lost")
-            // Then we update/increment losses by 1
-            losses++;
+    // Change the HTML to reflect changes in currentScore
+    $("#score").text("Your total score: " + currentScore);
 
-            /* And we use jQuery to select the div with id "#losses"  
-            and dump the updates/incremented losses variable into our div */
-            $("#losses").html("Losses: " + losses);
+    // Call the checkWin Function
+    checkWin();
 
-            // We reset the game by calling the reset function
-            resetGame();
-        }
+    // Testing Console
+    console.log("Your Score: " + currentScore);
+};
 
-    });
+// MAIN PROCESS
+// =================================================================
 
-    
+// Starts the Game the First Time.
+startGame();
 
-    
+$(".c1").click(function () {
+    addValues(crystal.blue);
+});
 
-    
+$(".c2").click(function () {
+    addValues(crystal.red);
+});
 
+$(".c3").click(function () {
+    addValues(crystal.green);
+});
 
-
-
-
-
+$(".c4").click(function () {
+    addValues(crystal.yellow);
 });
